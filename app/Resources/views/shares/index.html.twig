@@ -1,0 +1,189 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">Портфель акций</div>
+                <div class="panel-body">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Акции</th>
+                            <th>Процентная доля</th>
+                            <th><i class="fa fa-cogs"></i> Действия</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for share in shares %}
+                            <tr>
+                                <td><a href="">{{ share }}</a></td>
+                                <td>25%</td>
+                                <td>
+                                    <div class="pull-right">
+                                        <a href="" class="btn btn-info"><i class="fa fa-edit"></i> Редактировать</a>
+                                        <a href="" class="btn btn-danger"><i class="fa fa-trash"></i> Удалить</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <div>
+                        <button class="btn btn-success" data-toggle="modal" data-target="#myModal">
+                            <i class="fa fa-plus"></i> Добавить
+                        </button>
+                        <button id="calc" class="btn btn-success">
+                            <i class="fa fa-calculator"></i> Рассчитать
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default hidden" id="chart-panel">
+                <div class="panel-heading">График доходности</div>
+                <div class="panel-body">
+                    <div id="charts"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Добавление акций</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Акции</label>
+                        <select class="form-control">
+                            <option>Facebook</option>
+                            <option>Tesla</option>
+                            <option>Apple</option>
+                            <option>IBM</option>
+                            <option>Oracle</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="procent">Процент</label>
+                        <input id="procent" type="range" min="0" max="100" step="1" value="0">
+                        <output id="output-procent" for="procent" name="level">0</output>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="/css/charts.css" rel="stylesheet">
+{% endblock %}
+
+{% block javascripts %}
+<script src="/js/jquery-3.2.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/highcharts-5.0.10.js"></script>
+<script src="/js/highcharts-5.0.10-exporting.js"></script>
+<script>
+    $(function(){
+        var val = $('#procent').val();
+        output  = $('#output-procent');
+
+        output.html(val);
+
+        $('#procent').change(function(){
+            output.html(this.value);
+        });
+
+    });
+
+    var $calc = $('#calc');
+    $calc.click(function () {
+        $( "#chart-panel" ).removeClass( "hidden" )
+
+        Highcharts.chart('charts', {
+
+            title: {
+                text: ''
+            },
+
+            xAxis: {
+                type: 'datetime',
+                min: Date.UTC(2015, 05, 1),
+                max: Date.UTC(2017, 05, 1),
+                labels: {
+                    step: 1,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Arial,sans-serif'
+                    }
+                },
+                dateTimeLabelFormats: { // don't display the dummy year
+                    month: '%b \'%y',
+                    year: '%Y'
+                },
+                tickInterval: 30 * 24 * 3600 * 1000,
+            },
+
+            yAxis: {
+                title: {
+                    text: 'Доходность, %'
+                }
+            },
+            legend: {
+                enabled: false,
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+
+            tooltip: {
+                headerFormat: '<b>{series.name}: </b>',
+                pointFormat: '{point.y}%'
+            },
+
+            series: [{
+                name: 'Доходность',
+                data: [
+                    [Date.UTC(2015, 05, 1), 10],
+                    [Date.UTC(2015, 06, 1), 11],
+                    [Date.UTC(2015, 07, 1), 9],
+                    [Date.UTC(2015, 08, 1), 6],
+                    [Date.UTC(2015, 09, 1), 10],
+                    [Date.UTC(2015, 10, 1), 9],
+                    [Date.UTC(2015, 11, 1), 8],
+                    [Date.UTC(2015, 12, 1), 7],
+                    [Date.UTC(2016, 1, 1), 12],
+                    [Date.UTC(2016, 2, 1), 14],
+                    [Date.UTC(2016, 3, 1), 12],
+                    [Date.UTC(2016, 4, 1), 10],
+                    [Date.UTC(2016, 5, 1), 12],
+                    [Date.UTC(2016, 6, 1),9],
+                    [Date.UTC(2016, 7, 1), 5],
+                    [Date.UTC(2016, 8, 1), 2],
+                    [Date.UTC(2016, 9, 1), 5],
+                    [Date.UTC(2016, 10, 1), 8],
+                    [Date.UTC(2016, 11, 1), 9],
+                    [Date.UTC(2016, 12, 1), 12],
+                    [Date.UTC(2017, 1, 1), 12],
+                    [Date.UTC(2017, 2, 1), 16],
+                    [Date.UTC(2017, 3, 1), 1],
+                    [Date.UTC(2017, 4, 1), 8],
+                    [Date.UTC(2017, 5, 1), 9]
+                ]
+            }]
+
+        });
+    });
+</script>
+{% endblock %}
