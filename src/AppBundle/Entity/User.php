@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -19,9 +20,16 @@ class User extends BaseUser
      */
     protected $id;
 
+    /**
+     * One User has Many Portfolios.
+     * @ORM\OneToMany(targetEntity="Portfolio", mappedBy="fos_user")
+     */
+    private $portfolios;
+
     public function __construct()
     {
         parent::__construct();
-        // your own logic
+
+        $this->portfolios = new ArrayCollection();
     }
 }
