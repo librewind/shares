@@ -5,8 +5,8 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
  * @ORM\Table(name="share")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\DoctrineShareRepository")
  */
 class Share
 {

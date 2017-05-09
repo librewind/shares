@@ -188,11 +188,11 @@ class PortfolioController extends Controller
             return $this->redirectToRoute('portfolio_show', ['id' => $portfolio->getId()]);
         }
 
-        $allShares = $this->getDoctrine()
-            ->getRepository('AppBundle:Share')
-            ->findAll();
+        $portfolioShares = $portfolio->getPortfolioShares();
 
         $em = $this->getDoctrine()->getManager();
+
+        $allShares = $em->getRepository('AppBundle:Share')->findAllWithExclude($portfolioShares);
 
         $totalProcents = $em->getRepository('AppBundle:Portfolio')->getTotalProcents($portfolio);
 

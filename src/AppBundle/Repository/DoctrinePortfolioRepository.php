@@ -87,7 +87,11 @@ class DoctrinePortfolioRepository extends EntityRepository implements PortfolioR
      */
     public function getTotalProcents($object)
     {
-        $query = $this->_em->createQuery('SELECT sum(ps.proportion) as totalProcents FROM AppBundle\Entity\PortfolioShare ps WHERE ps.portfolio = ' . $object->getId());
+        $query = $this->_em->createQuery(
+            'SELECT sum(ps.proportion) as totalProcents 
+            FROM AppBundle\Entity\PortfolioShare ps 
+            WHERE ps.portfolio = :portfolio'
+        )->setParameter('portfolio', $object->getId());
 
         $result = $query->getResult();
 
