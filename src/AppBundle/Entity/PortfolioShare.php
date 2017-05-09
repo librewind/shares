@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Entity\Portfolio;
+use AppBundle\Entity\Share;
 
 /**
  * @ORM\Entity
@@ -20,15 +22,15 @@ class PortfolioShare
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Portfolio", inversedBy="portfolioshare")
+     * @ORM\ManyToOne(targetEntity="Portfolio", inversedBy="portfolioshares")
      * @ORM\JoinColumn(name="portfolio_id", referencedColumnName="id")
-     * */
+     */
     private $portfolio;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Share", inversedBy="portfolioshare")
+     * @ORM\ManyToOne(targetEntity="Share", inversedBy="portfolioshares")
      * @ORM\JoinColumn(name="share_id", referencedColumnName="id")
-     * */
+     */
     private $share;
 
     /**
@@ -37,4 +39,54 @@ class PortfolioShare
      * @var float $proportion
      */
     private $proportion;
+
+    /**
+     * Get id.
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set id.
+     *
+     * @param  integer  $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    public function getPortfolio()
+    {
+        return $this->portfolio;
+    }
+
+    public function setPortfolio(Portfolio $portfolio)
+    {
+        $this->portfolio = $portfolio;
+    }
+
+    public function getShare()
+    {
+        return $this->share;
+    }
+
+    public function setShare(Share $share)
+    {
+        $this->share = $share;
+    }
+
+    public function getProportion()
+    {
+        return $this->proportion;
+    }
+
+    public function setProportion($proportion)
+    {
+        $this->proportion = $proportion;
+    }
 }

@@ -22,7 +22,7 @@ class User extends BaseUser
 
     /**
      * One User has Many Portfolios.
-     * @ORM\OneToMany(targetEntity="Portfolio", mappedBy="fos_user")
+     * @ORM\OneToMany(targetEntity="Portfolio", mappedBy="user")
      */
     private $portfolios;
 
@@ -31,5 +31,19 @@ class User extends BaseUser
         parent::__construct();
 
         $this->portfolios = new ArrayCollection();
+    }
+
+    public function addPortfolio(Portfolio $portfolio)
+    {
+        if (!$this->portfolios->contains($portfolio)) {
+            $portfolio->setUser($this);
+
+            $this->portfolios->add($portfolio);
+        }
+    }
+
+    public function getPortfolios()
+    {
+        return $this->portfolios;
     }
 }

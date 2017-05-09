@@ -15,21 +15,21 @@ class Share
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @var integer $id
+     * @var integer
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=100)
      *
-     * @var string $name
+     * @var string
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=20)
      *
-     * @var string $symbol
+     * @var string
      */
     private $symbol;
 
@@ -43,7 +43,7 @@ class Share
      *
      * @return integer
      */
-    public function getId() : integer
+    public function getId()
     {
         return $this->id;
     }
@@ -52,9 +52,8 @@ class Share
      * Set id.
      *
      * @param  integer  $id
-     * @return void
      */
-    public function setId($id) : void
+    public function setId($id)
     {
         $this->id = $id;
     }
@@ -73,9 +72,8 @@ class Share
      * Set name.
      *
      * @param  string  $name
-     * @return void
      */
-    public function setName(string $name) : void
+    public function setName(string $name)
     {
         $this->name = $name;
     }
@@ -94,9 +92,8 @@ class Share
      * Set symbol.
      *
      * @param  string  $symbol
-     * @return void
      */
-    public function setSymbol(string $symbol) : void
+    public function setSymbol(string $symbol)
     {
         $this->symbol = $symbol;
     }

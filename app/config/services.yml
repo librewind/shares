@@ -12,3 +12,7 @@ services:
         arguments: ["@router"]
         tags:
             - { name: kernel.event_subscriber, event: fos_user.registration.success }
+
+    app.share_data_import:
+        class:     AppBundle\Service\YahooShareDataImport
+        arguments: []

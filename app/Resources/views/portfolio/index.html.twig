@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">Мои портфели</div>
+                <div class="panel-body">
+                    {% if portfolios is empty %}
+                        <p>Нет ни одного портфеля.</p>
+                    {% else %}
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="col-md-9">Наименование</th>
+                                    <th class="col-md-3"><i class="fa fa-cogs"></i> Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for portfolio in portfolios %}
+                                    <tr>
+                                        <td><a href="{{ path('portfolio_show', { 'id': portfolio.id }) }}">{{ portfolio.name }}</a></td>
+                                        <td>
+                                            <div class="pull-right">
+                                                <a href="{{ path('portfolio_edit', {'id': portfolio.id}) }}" class="btn btn-info">
+                                                    <i class="fa fa-edit"></i> Редактировать
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                    <div>
+                        <a href="{{ path('portfolio_new') }}" class="btn btn-success"><i class="fa fa-plus"></i> Добавить</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#myModal').on('show.bs.modal', function (event) {
+            $('#portfolio_name').focus();
+        });
+
+        $('#add_portfolio').click(function () {
+            /*$.ajax({
+                type: "POST",
+                url: "/portfolios",
+                data: {
+                    name: $('#portfolio_name').val()
+                },
+                dataType: "json",
+                success: function(response) {
+                    console.log(response);
+                }
+            });
+
+            $('#portfolio_name').val('');*/
+
+            $('#form_add_portfolio').submit();
+        });
+    </script>
+{% endblock %}
