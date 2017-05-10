@@ -139,7 +139,7 @@ class PortfolioController extends Controller
      */
     public function deleteAction(Request $request, Portfolio $portfolio)
     {
-        $form = $this->createDeleteForm($portfolio);
+        /*$form = $this->createDeleteForm($portfolio);
 
         $form->handleRequest($request);
 
@@ -147,7 +147,13 @@ class PortfolioController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($portfolio);
             $em->flush($portfolio);
-        }
+        }*/
+
+        $em = $this->getDoctrine()->getManager();
+        /*$em->remove($portfolio);
+        $em->flush();*/
+
+        $em->getRepository('AppBundle:Portfolio')->delete($portfolio);
 
         return $this->redirectToRoute('portfolio_index');
     }

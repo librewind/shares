@@ -22,9 +22,15 @@
                                         <td><a href="{{ path('portfolio_show', { 'id': portfolio.id }) }}">{{ portfolio.name }}</a></td>
                                         <td>
                                             <div class="pull-right">
-                                                <a href="{{ path('portfolio_edit', {'id': portfolio.id}) }}" class="btn btn-info">
-                                                    <i class="fa fa-edit"></i> Редактировать
-                                                </a>
+                                                <form action="{{ path('portfolio_delete', {'id': portfolio.id}) }}" method="POST">
+                                                    <input type="hidden" name="_method" value="DELETE" />
+                                                    <a href="{{ path('portfolio_edit', {'id': portfolio.id}) }}" class="btn btn-info">
+                                                        <i class="fa fa-edit"></i> Редактировать
+                                                    </a>
+                                                    <button type="submit" class="btn btn-warning">
+                                                        <i class="fa fa-trash"></i> Удалить
+                                                    </button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>

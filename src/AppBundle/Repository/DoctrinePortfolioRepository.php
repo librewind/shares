@@ -72,6 +72,14 @@ class DoctrinePortfolioRepository extends EntityRepository implements PortfolioR
      */
     public function delete($object)
     {
+        /*$portfolioShares = $object->getPortfolioShares();
+
+        foreach ($portfolioShares as $portfolioShare) {
+            $this->_em->remove($portfolioShare);
+
+            $this->_em->flush($object);
+        }*/
+
         $this->_em->remove($object);
 
         $this->_em->flush($object);

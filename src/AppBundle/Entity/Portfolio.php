@@ -35,7 +35,8 @@ class Portfolio
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="PortfolioShare", mappedBy="portfolio")
+     * @ORM\OneToMany(targetEntity="PortfolioShare", mappedBy="portfolio", cascade="remove")
+     *
      */
     private $portfolioshares;
 
