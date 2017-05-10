@@ -77,9 +77,9 @@ class PortfolioController extends Controller
     {
         $portfolioShares = $portfolio->getPortfolioShares();
 
-        $allShares = $this->getDoctrine()
-            ->getRepository('AppBundle:Share')
-            ->findAll();
+        $em = $this->getDoctrine()->getManager();
+
+        $allShares = $em->getRepository('AppBundle:Share')->findAllWithExclude($portfolioShares);
 
         $shares = [
             'KO'   => 0.9,
@@ -91,8 +91,6 @@ class PortfolioController extends Controller
         $portfolioYield = $shareDataImport->fetchYield($shares, 24);
 
         $deleteForm = $this->createDeleteForm($portfolio);
-
-        $em = $this->getDoctrine()->getManager();
 
         $totalProcents = $em->getRepository('AppBundle:Portfolio')->getTotalProcents($portfolio);
 
@@ -155,6 +153,8 @@ class PortfolioController extends Controller
     }
 
     /**
+     * Добавляет акцию в портфель.
+     *
      * @Route("/{id}/share", name="share_add")
      * @Method({"GET", "POST"})
      */
@@ -206,6 +206,46 @@ class PortfolioController extends Controller
     }
 
     /**
+     * Редактирует акцию в портфеле.
+     * @Route("/{portfolioId}/share/{shareId}", name="share_edit")
+     * @ParamConverter("portfolio", options={"mapping": {"portfolioId": "id"}})
+     * @ParamConverter("share", options={"mapping": {"shareId": "id"}})
+     * @Method({"GET", "POST"})
+     */
+    public function editShareAction(Request $request, Portfolio $portfolio, Share $share)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $portfolioShare = $em->getRepository('AppBundle:PortfolioShare')
+            ->findOneBy(['portfolio' => $portfolio, 'share' => $share]);
+
+        if ('POST' == $request->getMethod()) {
+            $portfolioShare->setProportion($request->get('proportion'));
+
+            $em->persist($portfolioShare);
+            $em->flush();
+
+            return $this->redirectToRoute('portfolio_show', ['id' => $portfolio->getId()]);
+        }
+
+        $portfolioShares = $portfolio->getPortfolioShares();
+
+        $allShares = $em->getRepository('AppBundle:Share')->findAllWithExclude($portfolioShares);
+
+        $totalProcents = $em->getRepository('AppBundle:Portfolio')->getTotalProcents($portfolio);
+
+        $maxProportion = 1 - $totalProcents + $portfolioShare->getProportion();
+
+        return $this->render('portfolio/edit_share.html.twig', [
+            'allShares'      => $allShares,
+            'portfolioShare' => $portfolioShare,
+            'maxProportion'  => $maxProportion
+        ]);
+    }
+
+    /**
+     * Удаляет акцию из портфеля.
+     *
      * @Route("/{portfolioId}/share/{shareId}", name="share_delete")
      * @ParamConverter("portfolio", options={"mapping": {"portfolioId": "id"}})
      * @ParamConverter("share", options={"mapping": {"shareId": "id"}})

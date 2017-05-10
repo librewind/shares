@@ -26,9 +26,9 @@
                                             <div class="pull-right">
                                                 <form action="{{ path('share_delete', {'portfolioId': portfolioShare.portfolio.id, 'shareId': portfolioShare.share.id}) }}" method="POST">
                                                     <input type="hidden" name="_method" value="DELETE" />
-                                                    <button type="button" class="btn btn-info" data-portfolio-share-id="{{ portfolioShare.id }}" name="show_modal_edit_share">
+                                                    <a href="{{ path('share_edit', {'portfolioId': portfolioShare.portfolio.id, 'shareId': portfolioShare.share.id}) }}" class="btn btn-info">
                                                         <i class="fa fa-edit"></i> Редактировать
-                                                    </button>
+                                                    </a>
                                                     <button type="submit" class="btn btn-warning">
                                                         <i class="fa fa-trash"></i> Удалить
                                                     </button>
@@ -41,7 +41,7 @@
                         </table>
                     {% endif %}
                     <div>
-                        <a href="{{ path('share_add', {'id': portfolio.id}) }}" class="btn btn-success {{ totalProcents == 1 ? 'disabled' : '' }}">
+                        <a href="{{ path('share_add', {'id': portfolio.id}) }}" class="btn btn-success {{ totalProcents == 1 or allShares|length == 0 ? 'disabled' : '' }}">
                             <i class="fa fa-plus"></i> Добавить акции
                         </a>
                         <button id="calc" class="btn btn-success {{ totalProcents == 1 ? '' : 'disabled' }}" {{ totalProcents == 1 ? '' : 'disabled' }}>

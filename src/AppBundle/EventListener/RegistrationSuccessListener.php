@@ -27,7 +27,7 @@ class RegistrationSuccessListener implements EventSubscriberInterface
 
     public function onRegistrationSuccess(FormEvent $event)
     {
-        $url = $this->router->generate('rootpage');
+        $url = $this->router->generate('homepage');
 
         $event->setResponse(new RedirectResponse($url));
     }

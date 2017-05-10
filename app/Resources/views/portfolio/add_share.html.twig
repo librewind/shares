@@ -38,12 +38,10 @@
         $(function(){
             var val = $('#proportion').val() * 100;
             var output  = $('#output-proportion');
-
             output.html(val);
 
             $('#proportion').change(function(){
                 var val = Math.round(this.value * 100);
-
                 output.html(val);
             });
         });
