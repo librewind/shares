@@ -8,7 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Form\Form;
 use AppBundle\Entity\Portfolio;
 use AppBundle\Entity\Share;
 use AppBundle\Entity\PortfolioShare;
@@ -25,6 +27,8 @@ class PortfolioController extends Controller
      *
      * @Route("/", name="portfolio_index")
      * @Method("GET")
+     *
+     * @return Response
      */
     public function indexAction()
     {
@@ -42,6 +46,10 @@ class PortfolioController extends Controller
      *
      * @Route("/new", name="portfolio_new")
      * @Method({"GET", "POST"})
+     *
+     * @param Request $request
+     *
+     * @return Response|RedirectResponse
      */
     public function newAction(Request $request)
     {
@@ -72,6 +80,10 @@ class PortfolioController extends Controller
      *
      * @Route("/{id}", name="portfolio_show")
      * @Method("GET")
+     *
+     * @param Portfolio $portfolio
+     *
+     * @return Response
      */
     public function showAction(Portfolio $portfolio)
     {
@@ -81,15 +93,6 @@ class PortfolioController extends Controller
 
         $allShares = $em->getRepository('AppBundle:Share')->findAllWithExclude($portfolioShares);
 
-        $shares = [
-            'KO'   => 0.9,
-            'YHOO' => 0.1,
-        ];
-
-        $shareDataImport = $this->container->get('app.share_data_import');
-
-        $portfolioYield = $shareDataImport->fetchYield($shares, 24);
-
         $deleteForm = $this->createDeleteForm($portfolio);
 
         $totalProcents = $em->getRepository('AppBundle:Portfolio')->getTotalProcents($portfolio);
@@ -98,7 +101,6 @@ class PortfolioController extends Controller
             'portfolio'       => $portfolio,
             'allShares'       => $allShares,
             'portfolioShares' => $portfolioShares,
-            'portfolioYield'  => $portfolioYield,
             'delete_form'     => $deleteForm->createView(),
             'totalProcents'   => $totalProcents,
         ]);
@@ -109,6 +111,11 @@ class PortfolioController extends Controller
      *
      * @Route("/{id}/edit", name="portfolio_edit")
      * @Method({"GET", "POST"})
+     *
+     * @param Request   $request
+     * @param Portfolio $portfolio
+     *
+     * @return Response|RedirectResponse
      */
     public function editAction(Request $request, Portfolio $portfolio)
     {
@@ -136,22 +143,14 @@ class PortfolioController extends Controller
      *
      * @Route("/{id}", name="portfolio_delete")
      * @Method("DELETE")
+     *
+     * @param Portfolio $portfolio
+     *
+     * @return RedirectResponse
      */
-    public function deleteAction(Request $request, Portfolio $portfolio)
+    public function deleteAction(Portfolio $portfolio)
     {
-        /*$form = $this->createDeleteForm($portfolio);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($portfolio);
-            $em->flush($portfolio);
-        }*/
-
         $em = $this->getDoctrine()->getManager();
-        /*$em->remove($portfolio);
-        $em->flush();*/
 
         $em->getRepository('AppBundle:Portfolio')->delete($portfolio);
 
@@ -163,6 +162,11 @@ class PortfolioController extends Controller
      *
      * @Route("/{id}/share", name="share_add")
      * @Method({"GET", "POST"})
+     *
+     * @param Request   $request
+     * @param Portfolio $portfolio
+     *
+     * @return Response|RedirectResponse
      */
     public function addShareAction(Request $request, Portfolio $portfolio)
     {
@@ -213,10 +217,17 @@ class PortfolioController extends Controller
 
     /**
      * Редактирует акцию в портфеле.
+     *
      * @Route("/{portfolioId}/share/{shareId}", name="share_edit")
      * @ParamConverter("portfolio", options={"mapping": {"portfolioId": "id"}})
      * @ParamConverter("share", options={"mapping": {"shareId": "id"}})
      * @Method({"GET", "POST"})
+     *
+     * @param Request   $request
+     * @param Portfolio $portfolio
+     * @param Share     $share
+     *
+     * @return Response|RedirectResponse
      */
     public function editShareAction(Request $request, Portfolio $portfolio, Share $share)
     {
@@ -256,6 +267,11 @@ class PortfolioController extends Controller
      * @ParamConverter("portfolio", options={"mapping": {"portfolioId": "id"}})
      * @ParamConverter("share", options={"mapping": {"shareId": "id"}})
      * @Method("DELETE")
+     *
+     * @param Portfolio $portfolio
+     * @param Share     $share
+     *
+     * @return RedirectResponse
      */
     public function deleteShareAction(Portfolio $portfolio, Share $share)
     {
@@ -272,11 +288,37 @@ class PortfolioController extends Controller
     }
 
     /**
+     * Подсчет доходности портфеля.
+     *
+     * @Route("/{id}/calc", name="portfolio_calc")
+     * @Method("GET")
+     *
+     * @param Portfolio $portfolio
+     *
+     * @return JsonResponse
+     */
+    public function calculationAction(Portfolio $portfolio)
+    {
+        $shareDataImport = $this->container->get('app.share_data_import');
+
+        try {
+            $result = $shareDataImport->fetchMonthlyYield($portfolio);
+        } catch (\RuntimeException $e) {
+            $result = [
+                'error'     => true,
+                'error_msg' => $e->getMessage(),
+            ];
+        }
+
+        return new JsonResponse($result);
+    }
+
+    /**
      * Создает форму для удаления портфеля.
      *
-     * @param Portfolio $portfolio Портфель
+     * @param Portfolio $portfolio
      *
-     * @return \Symfony\Component\Form\Form Форма
+     * @return Form
      */
     private function createDeleteForm(Portfolio $portfolio)
     {

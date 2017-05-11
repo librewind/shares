@@ -53,7 +53,7 @@
             <div class="panel panel-default hidden" id="chart-panel">
                 <div class="panel-heading">График доходности</div>
                 <div class="panel-body">
-                    <div id="charts"></div>
+                    <div id="chart"></div>
                 </div>
             </div>
         </div>
@@ -69,60 +69,34 @@
     {{ parent() }}
     <script src="{{ asset('js/highcharts-5.0.10.js') }}"></script>
     <script src="{{ asset('js/highcharts-5.0.10-exporting.js') }}"></script>
+    <script src="{{ asset('js/charts.js') }}"></script>
     <script>
         $('#calc').click(function () {
-            $( "#chart-panel" ).removeClass( "hidden" );
-
-            Highcharts.chart('charts', {
-
-                title: {
-                    text: ''
-                },
-
-                xAxis: {
-                    type: 'datetime',
-                    min: Date.UTC(2015, 05, 1),
-                    max: Date.UTC(2017, 05, 1),
-                    labels: {
-                        step: 1,
-                        style: {
-                            fontSize: '13px',
-                            fontFamily: 'Arial,sans-serif'
+            $.ajax({
+                type: 'GET',
+                url: '/portfolio/{{ portfolio.id }}/calc',
+                beforeSend: function() {
+                    $.blockUI({
+                        message: '<h1>Идёт рассчёт... пожалуйста подождите</h1>',
+                        css: {
+                            backgroundColor: 'transparent',
+                            border: '0',
+                            color: '#fff'
                         }
-                    },
-                    dateTimeLabelFormats: { // don't display the dummy year
-                        month: '%b \'%y',
-                        year: '%Y'
-                    },
-                    tickInterval: 30 * 24 * 3600 * 1000,
+                    });
                 },
+                complete: function () {
+                    $.unblockUI();
+                },
+                success: function(res){
+                    $( "#chart-panel" ).removeClass( "hidden" );
 
-                yAxis: {
-                    title: {
-                        text: 'Доходность, %'
+                    if (res.data.error) {
+                        alert(res.data.error_msg);
                     }
-                },
-                legend: {
-                    enabled: false,
-                    layout: 'vertical',
-                    align: 'right',
-                    verticalAlign: 'middle'
-                },
 
-                tooltip: {
-                    headerFormat: '<b>{series.name}: </b>',
-                    pointFormat: '{point.y}%'
-                },
-
-                series: [{
-                    name: 'Доходность',
-                    data: [
-                        {% for key, item in portfolioYield %}
-                        [{{ key }}, {{ item }}],
-                        {% endfor %}
-                    ]
-                }]
-
+                    printChart('chart', res.data, res.startDate, res.endDate);
+                }
             });
         });
     </script>
