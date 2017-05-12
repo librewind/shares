@@ -6,5 +6,13 @@ use AppBundle\Entity\Portfolio;
 
 interface ShareDataImportInterface
 {
-    public function fetchMonthlyYield(Portfolio $portfolio, int $period = 24);
+    /**
+     * Отдаёт доходность портфеля по месяцам.
+     *
+     * @param Portfolio $portfolio
+     * @param int       $period
+     *
+     * @return array
+     */
+    public function fetchMonthlyYield(Portfolio $portfolio, int $period = 24) : array;
 }

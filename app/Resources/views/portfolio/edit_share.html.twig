@@ -1,26 +1,28 @@
 {% extends 'base.html.twig' %}
 
+{% trans_default_domain "labels" %}
+
 {% block body %}
     <div class="container">
         <div class="row">
             <div class="panel panel-default">
-                <div class="panel-heading">Добавление портфеля</div>
+                <div class="panel-heading">{{ 'title.edit_share'|trans }}</div>
                 <div class="panel-body">
                     <form action="{{ path('share_edit', {'portfolioId': portfolioShare.portfolio.id, 'shareId': portfolioShare.share.id}) }}" method="POST">
                         <div class="form-group">
-                            <label>Акции</label>
+                            <label>{{ 'form.name'|trans }}</label>
                             <select class="form-control" name="share_id" id="share_id" disabled>
                                 <option value="{{ portfolioShare.share.id }}">{{ portfolioShare.share.name }}</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="procent">Процент</label>
+                            <label for="procent">{{ 'form.procent'|trans }}</label>
                             <input id="proportion" name="proportion" type="range" min="0" max="{{ maxProportion }}" step="0.01" value="{{ portfolioShare.proportion }}">
                             <output id="output-proportion" for="proportion" name="level">0</output>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-success">Сохранить</button>
-                            <a href="{{ path('portfolio_show', {'id': portfolioShare.portfolio.id}) }}" class="btn btn-default">Отмена</a>
+                            <button type="submit" class="btn btn-success">{{ 'form.save'|trans }}</button>
+                            <a href="{{ path('portfolio_show', {'id': portfolioShare.portfolio.id}) }}" class="btn btn-default">{{ 'form.cancel'|trans }}</a>
                         </div>
                         <input type="hidden" name="id" id="portfolio_id" value="{{ portfolioShare.portfolio.id }}">
                     </form>

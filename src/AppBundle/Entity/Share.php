@@ -35,7 +35,7 @@ class Share
 
     /**
      * @ORM\OneToMany(targetEntity="PortfolioShare" , mappedBy="share")
-     * */
+     */
     private $portfolioshare;
 
     /**
@@ -46,16 +46,6 @@ class Share
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set id.
-     *
-     * @param  integer  $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
     }
 
     /**
@@ -71,7 +61,7 @@ class Share
     /**
      * Set name.
      *
-     * @param  string  $name
+     * @param string $name
      */
     public function setName(string $name)
     {
@@ -91,7 +81,7 @@ class Share
     /**
      * Set symbol.
      *
-     * @param  string  $symbol
+     * @param string $symbol
      */
     public function setSymbol(string $symbol)
     {

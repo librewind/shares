@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Form\Form;
 use AppBundle\Entity\Portfolio;
 use AppBundle\Entity\Share;
 use AppBundle\Entity\PortfolioShare;
@@ -30,7 +29,7 @@ class PortfolioController extends Controller
      *
      * @return Response
      */
-    public function indexAction()
+    public function indexAction() : Response
     {
         $user = $this->getUser();
 
@@ -85,7 +84,7 @@ class PortfolioController extends Controller
      *
      * @return Response
      */
-    public function showAction(Portfolio $portfolio)
+    public function showAction(Portfolio $portfolio) : Response
     {
         $portfolioShares = $portfolio->getPortfolioShares();
 
@@ -93,15 +92,12 @@ class PortfolioController extends Controller
 
         $allShares = $em->getRepository('AppBundle:Share')->findAllWithExclude($portfolioShares);
 
-        $deleteForm = $this->createDeleteForm($portfolio);
-
         $totalProcents = $em->getRepository('AppBundle:Portfolio')->getTotalProcents($portfolio);
 
         return $this->render('portfolio/show.html.twig', [
             'portfolio'       => $portfolio,
             'allShares'       => $allShares,
             'portfolioShares' => $portfolioShares,
-            'delete_form'     => $deleteForm->createView(),
             'totalProcents'   => $totalProcents,
         ]);
     }
@@ -119,8 +115,6 @@ class PortfolioController extends Controller
      */
     public function editAction(Request $request, Portfolio $portfolio)
     {
-        $deleteForm = $this->createDeleteForm($portfolio);
-
         $editForm = $this->createForm('AppBundle\Form\PortfolioType', $portfolio);
 
         $editForm->handleRequest($request);
@@ -132,9 +126,8 @@ class PortfolioController extends Controller
         }
 
         return $this->render('portfolio/edit.html.twig', [
-            'portfolio'   => $portfolio,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'portfolio' => $portfolio,
+            'edit_form' => $editForm->createView(),
         ]);
     }
 
@@ -148,7 +141,7 @@ class PortfolioController extends Controller
      *
      * @return RedirectResponse
      */
-    public function deleteAction(Portfolio $portfolio)
+    public function deleteAction(Portfolio $portfolio) : RedirectResponse
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -273,7 +266,7 @@ class PortfolioController extends Controller
      *
      * @return RedirectResponse
      */
-    public function deleteShareAction(Portfolio $portfolio, Share $share)
+    public function deleteShareAction(Portfolio $portfolio, Share $share) : RedirectResponse
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -297,7 +290,7 @@ class PortfolioController extends Controller
      *
      * @return JsonResponse
      */
-    public function calculationAction(Portfolio $portfolio)
+    public function calculationAction(Portfolio $portfolio) : JsonResponse
     {
         $shareDataImport = $this->container->get('app.share_data_import');
 
@@ -311,20 +304,5 @@ class PortfolioController extends Controller
         }
 
         return new JsonResponse($result);
-    }
-
-    /**
-     * Создает форму для удаления портфеля.
-     *
-     * @param Portfolio $portfolio
-     *
-     * @return Form
-     */
-    private function createDeleteForm(Portfolio $portfolio)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('portfolio_delete', ['id' => $portfolio->getId()]))
-            ->setMethod('DELETE')
-            ->getForm();
     }
 }

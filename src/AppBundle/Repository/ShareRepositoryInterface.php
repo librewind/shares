@@ -2,12 +2,16 @@
 
 namespace AppBundle\Repository;
 
+use Doctrine\ORM\PersistentCollection;
+
 interface ShareRepositoryInterface
 {
     /**
      * Отдает все акции с исключением.
      *
-     * @return mixed
+     * @param PersistentCollection $shares
+     *
+     * @return array
      */
-    public function findAllWithExclude($ids);
+    public function findAllWithExclude(PersistentCollection $shares) : array;
 }

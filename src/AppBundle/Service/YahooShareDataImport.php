@@ -78,7 +78,7 @@ class YahooShareDataImport implements ShareDataImportInterface
      *
      * @return string
      */
-    private function sendRequest($url)
+    private function sendRequest(string $url) : string
     {
         $ch = curl_init();
 
@@ -100,7 +100,7 @@ class YahooShareDataImport implements ShareDataImportInterface
      *
      * @return array
      */
-    private function getHistoricalData($symbol, $startDate, $endDate)
+    private function getHistoricalData(string $symbol, string $startDate, string $endDate) : array
     {
         $query = urlencode("select * from yahoo.finance.historicaldata where startDate='{$startDate}' and endDate='{$endDate}' and symbol = '{$symbol}'");
 
@@ -124,7 +124,7 @@ class YahooShareDataImport implements ShareDataImportInterface
      *
      * @return array
      */
-    private function groupByMonths($data)
+    private function groupByMonths(array $data) : array
     {
         $result = [];
 
@@ -148,7 +148,7 @@ class YahooShareDataImport implements ShareDataImportInterface
      *
      * @return array
      */
-    private function toUnixTimestamps($data)
+    private function toUnixTimestamps(array $data) : array
     {
         $result = [];
 
@@ -168,7 +168,7 @@ class YahooShareDataImport implements ShareDataImportInterface
      *
      * @return array
      */
-    private function toYield($data)
+    private function toYield(array $data) : array
     {
         $result = [];
 
@@ -190,7 +190,7 @@ class YahooShareDataImport implements ShareDataImportInterface
      *
      * @return array
      */
-    private function calcYield($shares)
+    private function calcYield(array $shares) : array
     {
         $res = [];
 
@@ -223,7 +223,7 @@ class YahooShareDataImport implements ShareDataImportInterface
      *
      * @throws \RuntimeException Когда Yahoo Finance не отвечает
      */
-    public function fetchMonthlyYield(Portfolio $portfolio, int $period = 24)
+    public function fetchMonthlyYield(Portfolio $portfolio, int $period = 24) : array
     {
         $portfolioShares = $portfolio->getPortfolioShares();
 

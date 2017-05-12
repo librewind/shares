@@ -36,10 +36,12 @@ class Portfolio
 
     /**
      * @ORM\OneToMany(targetEntity="PortfolioShare", mappedBy="portfolio", cascade="remove")
-     *
      */
     private $portfolioshares;
 
+    /**
+     * Конструктор Portfolio.
+     */
     public function __construct()
     {
         $this->portfolioshares = new ArrayCollection();
@@ -68,23 +70,38 @@ class Portfolio
     /**
      * Set name.
      *
-     * @param  string  $name
+     * @param string $name
      */
     public function setName(string $name)
     {
         $this->name = $name;
     }
 
+    /**
+     * Set user.
+     *
+     * @param User $user
+     */
     public function setUser(User $user)
     {
         $this->user = $user;
     }
 
+    /**
+     * Get user.
+     *
+     * @return User
+     */
     public function getUser()
     {
         return $this->user;
     }
 
+    /**
+     * Get portfolio shares.
+     *
+     * @return ArrayCollection
+     */
     public function getPortfolioShares()
     {
         return $this->portfolioshares;

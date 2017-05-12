@@ -2,17 +2,19 @@
 
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
 
+{% trans_default_domain "labels" %}
+
 {% block body %}
     <div class="container">
         <div class="row">
             <div class="panel panel-default">
-                <div class="panel-heading">Добавление портфеля</div>
+                <div class="panel-heading">{{ 'title.add_portfolio'|trans }}</div>
                 <div class="panel-body">
                     {{ form_start(form) }}
                         {{ form_widget(form) }}
                         <div class="form-group">
-                            <button type="submit" class="btn btn-success">Сохранить</button>
-                            <a href="{{ path('portfolio_index') }}" class="btn btn-default">Отмена</a>
+                            <button type="submit" class="btn btn-success">{{ 'form.save'|trans }}</button>
+                            <a href="{{ path('portfolio_index') }}" class="btn btn-default">{{ 'form.cancel'|trans }}</a>
                         </div>
                     {{ form_end(form) }}
                 </div>

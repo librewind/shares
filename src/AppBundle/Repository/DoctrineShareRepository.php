@@ -3,15 +3,18 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\PersistentCollection;
 
 class DoctrineShareRepository extends EntityRepository implements ShareRepositoryInterface
 {
     /**
      * Отдает все акции с исключением.
      *
-     * @return mixed
+     * @param PersistentCollection $shares
+     *
+     * @return array
      */
-    public function findAllWithExclude($shares)
+    public function findAllWithExclude(PersistentCollection $shares) : array
     {
         if (count($shares) == 0) {
             return $this->findAll();

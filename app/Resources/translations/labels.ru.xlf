@@ -2,9 +2,97 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
         <body>
+            <trans-unit id="nav_my_portfolios">
+                <source>nav.my_portfolios</source>
+                <target>Мои портфели</target>
+            </trans-unit>
+
+            <trans-unit id="title_my_portfolio">
+                <source>title.my_portfolios</source>
+                <target>Мои портфели</target>
+            </trans-unit>
+            <trans-unit id="title_shares_portfolio">
+                <source>title.shares_portfolio</source>
+                <target>Портфель акций</target>
+            </trans-unit>
+            <trans-unit id="title_add_portfolio">
+                <source>title.add_portfolio</source>
+                <target>Добавление портфеля</target>
+            </trans-unit>
+            <trans-unit id="title_edit_portfolio">
+                <source>title.edit_portfolio</source>
+                <target>Редактирование портфеля</target>
+            </trans-unit>
+            <trans-unit id="title_add_share">
+                <source>title.add_share</source>
+                <target>Добавление акции</target>
+            </trans-unit>
+            <trans-unit id="title_edit_share">
+                <source>title.edit_share</source>
+                <target>Редактирование акции</target>
+            </trans-unit>
+            <trans-unit id="title_yield_chart">
+                <source>title.yield_chart</source>
+                <target>График доходности</target>
+            </trans-unit>
+
             <trans-unit id="form_name">
                 <source>form.name</source>
                 <target>Наименование</target>
+            </trans-unit>
+            <trans-unit id="form_share">
+                <source>form.share</source>
+                <target>Акция</target>
+            </trans-unit>
+            <trans-unit id="form_procent">
+                <source>form.procent</source>
+                <target>Процент</target>
+            </trans-unit>
+            <trans-unit id="form_save">
+                <source>form.save</source>
+                <target>Сохранить</target>
+            </trans-unit>
+            <trans-unit id="form_cancel">
+                <source>form.cancel</source>
+                <target>Отмена</target>
+            </trans-unit>
+
+            <trans-unit id="table_name">
+                <source>table.name</source>
+                <target>Наименование</target>
+            </trans-unit>
+            <trans-unit id="table_share">
+                <source>table.share</source>
+                <target>Акция</target>
+            </trans-unit>
+            <trans-unit id="table_procent">
+                <source>table.procent</source>
+                <target>Процентная доля</target>
+            </trans-unit>
+            <trans-unit id="table_actions">
+                <source>table.actions</source>
+                <target>Действия</target>
+            </trans-unit>
+
+            <trans-unit id="button_add">
+                <source>button.add</source>
+                <target>Добавить</target>
+            </trans-unit>
+            <trans-unit id="button_add_share">
+                <source>button.add_share</source>
+                <target>Добавить акцию</target>
+            </trans-unit>
+            <trans-unit id="button_calculate">
+                <source>button.calculate</source>
+                <target>Рассчитать</target>
+            </trans-unit>
+            <trans-unit id="button_edit">
+                <source>button.edit</source>
+                <target>Редактировать</target>
+            </trans-unit>
+            <trans-unit id="button_delete">
+                <source>button.delete</source>
+                <target>Удалить</target>
             </trans-unit>
         </body>
     </file>

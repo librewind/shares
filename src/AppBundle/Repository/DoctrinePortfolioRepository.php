@@ -3,16 +3,18 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use AppBundle\Entity\Portfolio;
 
 class DoctrinePortfolioRepository extends EntityRepository implements PortfolioRepositoryInterface
 {
     /**
      * Создает портфолио.
      *
-     * @param $data
-     * @return mixed
+     * @param array $data
+     *
+     * @return Portfolio
      */
-    public function create($data)
+    public function create(array $data) : Portfolio
     {
         $entity = new $this->_entityName();
 
@@ -22,11 +24,12 @@ class DoctrinePortfolioRepository extends EntityRepository implements PortfolioR
     /**
      * Редактирует портфолио.
      *
-     * @param $data
-     * @param $id
-     * @return mixed
+     * @param array $data
+     * @param int   $id
+     *
+     * @return Portfolio
      */
-    public function update($data, $id)
+    public function update(array $data, int $id) : Portfolio
     {
         $entity = $this->find($id);
 
@@ -36,11 +39,12 @@ class DoctrinePortfolioRepository extends EntityRepository implements PortfolioR
     /**
      * Заполняет поля модели.
      *
-     * @param $entity
-     * @param $data
-     * @return mixed
+     * @param Portfolio $entity
+     * @param array     $data
+     *
+     * @return Portfolio
      */
-    protected function prepare($entity, $data)
+    protected function prepare(Portfolio $entity, array $data) : Portfolio
     {
         $entity->setName($data['name']);
 
@@ -52,10 +56,11 @@ class DoctrinePortfolioRepository extends EntityRepository implements PortfolioR
     /**
      * Сохраняет портфолио.
      *
-     * @param $object
-     * @return mixed
+     * @param Portfolio $object
+     *
+     * @return Portfolio
      */
-    public function save($object)
+    public function save(Portfolio $object) : Portfolio
     {
         $this->_em->persist($object);
 
@@ -67,19 +72,12 @@ class DoctrinePortfolioRepository extends EntityRepository implements PortfolioR
     /**
      * Удаляет портфолио.
      *
-     * @param $object
+     * @param Portfolio $object
+     *
      * @return bool
      */
-    public function delete($object)
+    public function delete(Portfolio $object) : bool
     {
-        /*$portfolioShares = $object->getPortfolioShares();
-
-        foreach ($portfolioShares as $portfolioShare) {
-            $this->_em->remove($portfolioShare);
-
-            $this->_em->flush($object);
-        }*/
-
         $this->_em->remove($object);
 
         $this->_em->flush($object);
@@ -90,10 +88,11 @@ class DoctrinePortfolioRepository extends EntityRepository implements PortfolioR
     /**
      * Отдает процент заполненности портфеля.
      *
-     * @param $object
+     * @param Portfolio $object
+     *
      * @return float
      */
-    public function getTotalProcents($object)
+    public function getTotalProcents(Portfolio $object) : float
     {
         $query = $this->_em->createQuery(
             'SELECT sum(ps.proportion) as totalProcents 

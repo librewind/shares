@@ -2,45 +2,52 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Portfolio;
+
 interface PortfolioRepositoryInterface
 {
     /**
      * Создает портфолио.
      *
-     * @param $data
-     * @return mixed
+     * @param array $data
+     *
+     * @return Portfolio
      */
-    public function create($data);
+    public function create(array $data) : Portfolio;
 
     /**
      * Редактирует портфолио.
      *
-     * @param $data
-     * @param $id
-     * @return mixed
+     * @param array $data
+     * @param int   $id
+     *
+     * @return Portfolio
      */
-    public function update($data, $id);
+    public function update(array $data, int $id) : Portfolio;
 
     /**
      * Сохраняет портфолио.
      *
-     * @param $object
-     * @return mixed
+     * @param Portfolio $object
+     *
+     * @return Portfolio
      */
-    public function save($object);
+    public function save(Portfolio $object) : Portfolio;
 
     /**
      * Удаляет портфолио.
      *
-     * @param $object
-     * @return mixed
+     * @param Portfolio $object
+     *
+     * @return bool
      */
-    public function delete($object);
+    public function delete(Portfolio $object) : bool;
 
     /**
      * Ищет портфолил.
      *
      * @param $id
+     *
      * @return mixed
      */
     public function find($id);
@@ -55,8 +62,9 @@ interface PortfolioRepositoryInterface
     /**
      * Отдает процент заполненности портфеля.
      *
-     * @param $object
+     * @param Portfolio $object
+     *
      * @return float
      */
-    public function getTotalProcents($object);
+    public function getTotalProcents(Portfolio $object) : float;
 }
