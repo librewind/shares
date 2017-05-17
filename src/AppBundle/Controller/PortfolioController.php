@@ -292,7 +292,7 @@ class PortfolioController extends Controller
      */
     public function calculationAction(Portfolio $portfolio) : JsonResponse
     {
-        $shareDataImport = $this->container->get('app.share_data_import');
+        $shareDataImport = $this->get('app.share_data_import');
 
         try {
             $result = $shareDataImport->fetchMonthlyYield($portfolio);
