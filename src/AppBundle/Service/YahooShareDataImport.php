@@ -223,17 +223,17 @@ class YahooShareDataImport implements ShareDataImportInterface
      * Отдаёт доходность портфеля по месяцам.
      *
      * @param Portfolio $portfolio
-     * @param int       $period
+     * @param int       $periodInMonths
      *
      * @return array
      *
      * @throws \RuntimeException Когда Yahoo Finance не отвечает
      */
-    public function fetchMonthlyYield(Portfolio $portfolio, int $period = 24) : array
+    public function fetchMonthlyYield(Portfolio $portfolio, int $periodInMonths = self::DEFAULT_PERIOD) : array
     {
         $portfolioShares = $portfolio->getPortfolioShares();
 
-        $periodParts = $this->makePeriodParts($period);
+        $periodParts = $this->makePeriodParts($periodInMonths);
 
         $inputData = [];
 
