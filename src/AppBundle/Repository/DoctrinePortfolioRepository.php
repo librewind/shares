@@ -102,7 +102,7 @@ class DoctrinePortfolioRepository extends EntityRepository implements PortfolioR
 
         $result = $query->getResult();
 
-        if (is_array($result) && isset($result[0]) && isset($result[0]['totalProcents']) && $result[0]['totalProcents'] > 0) {
+        if (is_array($result) && isset($result[0]['totalProcents']) && $result[0]['totalProcents'] > 0) {
             return floatval($result[0]['totalProcents']);
         }
 
