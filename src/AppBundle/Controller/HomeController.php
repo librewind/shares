@@ -15,6 +15,7 @@ class HomeController extends Controller
      * Главная страница.
      *
      * @Route("/", name="homepage")
+     * @Method("GET")
      *
      * @return Response
      */
