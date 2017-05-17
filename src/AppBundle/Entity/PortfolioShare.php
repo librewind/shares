@@ -5,10 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Portfolio;
 use AppBundle\Entity\Share;
+use \DateTime;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="portfolio_share")
+ * @ORM\HasLifecycleCallbacks
  */
 class PortfolioShare
 {
@@ -41,6 +43,20 @@ class PortfolioShare
     private $proportion;
 
     /**
+     * @ORM\Column(type="datetime")
+     *
+     * @var \DateTime
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     * @var \DateTime
+     */
+    private $updatedAt;
+
+    /**
      * Get id.
      *
      * @return integer
@@ -51,42 +67,117 @@ class PortfolioShare
     }
 
     /**
-     * Set id.
+     * Get portfolio.
      *
-     * @param  integer  $id
+     * @return Portfolio
      */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
     public function getPortfolio()
     {
         return $this->portfolio;
     }
 
+    /**
+     * Set portfolio.
+     *
+     * @param Portfolio $portfolio
+     */
     public function setPortfolio(Portfolio $portfolio)
     {
         $this->portfolio = $portfolio;
     }
 
+    /**
+     * Get share.
+     *
+     * @return Share
+     */
     public function getShare()
     {
         return $this->share;
     }
 
+    /**
+     * Set share.
+     *
+     * @param Share $share
+     */
     public function setShare(Share $share)
     {
         $this->share = $share;
     }
 
+    /**
+     * Get proportion.
+     *
+     * @return float
+     */
     public function getProportion()
     {
         return $this->proportion;
     }
 
+    /**
+     * Set proportion.
+     *
+     * @param float $proportion
+     */
     public function setProportion($proportion)
     {
         $this->proportion = $proportion;
+    }
+
+    /**
+     * Get createdAt.
+     *
+     * @return DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set createdAt.
+     *
+     * @param DateTime $createdAt
+     */
+    public function setCreatedAt(DateTime $createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * Get updatedAt.
+     *
+     * @return DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Set updatedAt.
+     *
+     * @param DateTime $updatedAt
+     */
+    public function setUpdatedAt(DateTime $updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * Обновляет createdAt/updatedAt.
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps()
+    {
+        $this->setUpdatedAt(new DateTime('now'));
+
+        if (null === $this->getCreatedAt()) {
+            $this->setCreatedAt(new DateTime('now'));
+        }
     }
 }

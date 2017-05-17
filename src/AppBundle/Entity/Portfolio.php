@@ -4,10 +4,12 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use \DateTime;
 
 /**
  * @ORM\Table(name="portfolio")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\DoctrinePortfolioRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Portfolio
 {
@@ -38,6 +40,20 @@ class Portfolio
      * @ORM\OneToMany(targetEntity="PortfolioShare", mappedBy="portfolio", cascade="remove")
      */
     private $portfolioshares;
+
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     * @var \DateTime
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     * @var \DateTime
+     */
+    private $updatedAt;
 
     /**
      * Конструктор Portfolio.
@@ -105,5 +121,60 @@ class Portfolio
     public function getPortfolioShares()
     {
         return $this->portfolioshares;
+    }
+
+    /**
+     * Get createdAt.
+     *
+     * @return DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set createdAt.
+     *
+     * @param DateTime $createdAt
+     */
+    public function setCreatedAt(DateTime $createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * Get updatedAt.
+     *
+     * @return DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Set updatedAt.
+     *
+     * @param DateTime $updatedAt
+     */
+    public function setUpdatedAt(DateTime $updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * Обновляет createdAt/updatedAt.
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps()
+    {
+        $this->setUpdatedAt(new DateTime('now'));
+
+        if (null === $this->getCreatedAt()) {
+            $this->setCreatedAt(new DateTime('now'));
+        }
     }
 }
