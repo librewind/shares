@@ -22,6 +22,8 @@ use AppBundle\Form\PortfolioType;
  */
 class PortfolioController extends Controller
 {
+    const POST_METHOD = 'POST';
+
     /**
      * Выводит список всех портфелей.
      *
@@ -164,7 +166,7 @@ class PortfolioController extends Controller
      */
     public function addShareAction(Request $request, Portfolio $portfolio)
     {
-        if ('POST' == $request->getMethod()) {
+        if (self::POST_METHOD === $request->getMethod()) {
             $share = $this->getDoctrine()
                 ->getRepository(Share::class)
                 ->find($request->get('share_id'));
@@ -230,7 +232,7 @@ class PortfolioController extends Controller
         $portfolioShare = $em->getRepository(PortfolioShare::class)
             ->findOneBy(['portfolio' => $portfolio, 'share' => $share]);
 
-        if ('POST' == $request->getMethod()) {
+        if (self::POST_METHOD === $request->getMethod()) {
             $portfolioShare->setRatio($request->get('ratio'));
 
             $em->persist($portfolioShare);

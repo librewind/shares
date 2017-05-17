@@ -16,7 +16,7 @@ class DoctrineShareRepository extends EntityRepository implements ShareRepositor
      */
     public function findAllWithExclude(PersistentCollection $shares) : array
     {
-        if (count($shares) == 0) {
+        if (count($shares) === 0) {
             return $this->findAll();
         }
 
