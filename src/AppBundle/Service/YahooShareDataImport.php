@@ -99,6 +99,8 @@ class YahooShareDataImport implements ShareDataImportInterface
      * @param string $endDate
      *
      * @return array
+     *
+     * @throws \RuntimeException Когда Yahoo Finance не отвечает
      */
     private function getHistoricalData(string $symbol, string $startDate, string $endDate) : array
     {
@@ -113,6 +115,10 @@ class YahooShareDataImport implements ShareDataImportInterface
         $result = $this->sendRequest($url);
 
         $yahoo = json_decode($result);
+
+        if (!isset($yahoo->query->results->quote)) {
+            throw new \RuntimeException('Yahoo Finance does not response');
+        }
 
         return array_reverse($yahoo->query->results->quote);
     }

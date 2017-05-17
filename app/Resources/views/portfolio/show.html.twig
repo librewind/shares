@@ -91,13 +91,13 @@
                     $.unblockUI();
                 },
                 success: function(res){
-                    $( "#chart-panel" ).removeClass( "hidden" );
+                    if (res.error) {
+                        alert(res.error_msg);
+                    } else {
+                        $( "#chart-panel" ).removeClass( "hidden" );
 
-                    if (res.data.error) {
-                        alert(res.data.error_msg);
+                        printChart('chart', res.data, res.startDate, res.endDate);
                     }
-
-                    printChart('chart', res.data, res.startDate, res.endDate);
                 }
             });
         });
