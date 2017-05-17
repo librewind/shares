@@ -4,12 +4,13 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Домашний контроллер :)
  */
-class HomeController extends Controller
+class DefaultController extends Controller
 {
     /**
      * Главная страница.
