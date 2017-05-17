@@ -19,8 +19,8 @@
                         </div>
                         <div class="form-group">
                             <label for="procent">{{ 'form.procent'|trans }}</label>
-                            <input id="proportion" name="proportion" type="range" min="0" max="{{ maxProportion }}" step="0.01" value="0">
-                            <output id="output-proportion" for="proportion" name="level">0</output>
+                            <input id="ratio" name="ratio" type="range" min="0" max="{{ maxRatio }}" step="0.01" value="0">
+                            <output id="output-ratio" for="ratio" name="level">0</output>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-success">{{ 'form.save'|trans }}</button>
@@ -38,11 +38,11 @@
     {{ parent() }}
     <script>
         $(function(){
-            var val = $('#proportion').val() * 100;
-            var output  = $('#output-proportion');
+            var val = $('#ratio').val() * 100;
+            var output  = $('#output-ratio');
             output.html(val);
 
-            $('#proportion').change(function(){
+            $('#ratio').change(function(){
                 var val = Math.round(this.value * 100);
                 output.html(val);
             });

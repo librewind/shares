@@ -23,7 +23,7 @@
                                 {% for portfolioShare in portfolioShares %}
                                     <tr>
                                         <td>{{ portfolioShare.share.name }}</td>
-                                        <td>{{ portfolioShare.proportion * 100 }}%</td>
+                                        <td>{{ portfolioShare.ratio * 100 }}%</td>
                                         <td>
                                             <div class="pull-right">
                                                 <form action="{{ path('share_delete', {'portfolioId': portfolioShare.portfolio.id, 'shareId': portfolioShare.share.id}) }}" method="POST">

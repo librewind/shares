@@ -38,9 +38,9 @@ class PortfolioShare
     /**
      * @ORM\Column(type="float")
      *
-     * @var float $proportion
+     * @var float $ratio
      */
-    private $proportion;
+    private $ratio;
 
     /**
      * @ORM\Column(type="datetime")
@@ -107,23 +107,23 @@ class PortfolioShare
     }
 
     /**
-     * Get proportion.
+     * Get ratio.
      *
      * @return float
      */
-    public function getProportion()
+    public function getRatio()
     {
-        return $this->proportion;
+        return $this->ratio;
     }
 
     /**
-     * Set proportion.
+     * Set ratio.
      *
-     * @param float $proportion
+     * @param float $ratio
      */
-    public function setProportion($proportion)
+    public function setRatio($ratio)
     {
-        $this->proportion = $proportion;
+        $this->ratio = $ratio;
     }
 
     /**

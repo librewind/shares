@@ -175,7 +175,7 @@ class PortfolioController extends Controller
                 );
             }
 
-            $proportion = $request->get('proportion');
+            $ratio = $request->get('ratio');
 
             $portfolioShare = new PortfolioShare();
 
@@ -183,7 +183,7 @@ class PortfolioController extends Controller
 
             $portfolioShare->setShare($share);
 
-            $portfolioShare->setProportion($proportion);
+            $portfolioShare->setRatio($ratio);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($portfolioShare);
@@ -200,12 +200,12 @@ class PortfolioController extends Controller
 
         $totalProcents = $em->getRepository(Portfolio::class)->getTotalProcents($portfolio);
 
-        $maxProportion = 1 - $totalProcents;
+        $maxRatio = 1 - $totalProcents;
 
         return $this->render('portfolio/add_share.html.twig', [
             'allShares'     => $allShares,
             'portfolio'     => $portfolio,
-            'maxProportion' => $maxProportion
+            'maxRatio' => $maxRatio
         ]);
     }
 
@@ -231,7 +231,7 @@ class PortfolioController extends Controller
             ->findOneBy(['portfolio' => $portfolio, 'share' => $share]);
 
         if ('POST' == $request->getMethod()) {
-            $portfolioShare->setProportion($request->get('proportion'));
+            $portfolioShare->setRatio($request->get('ratio'));
 
             $em->persist($portfolioShare);
             $em->flush();
@@ -245,12 +245,12 @@ class PortfolioController extends Controller
 
         $totalProcents = $em->getRepository(Portfolio::class)->getTotalProcents($portfolio);
 
-        $maxProportion = 1 - $totalProcents + $portfolioShare->getProportion();
+        $maxRatio = 1 - $totalProcents + $portfolioShare->getRatio();
 
         return $this->render('portfolio/edit_share.html.twig', [
             'allShares'      => $allShares,
             'portfolioShare' => $portfolioShare,
-            'maxProportion'  => $maxProportion
+            'maxRatio'  => $maxRatio
         ]);
     }
 

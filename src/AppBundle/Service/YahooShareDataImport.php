@@ -206,7 +206,7 @@ class YahooShareDataImport implements ShareDataImportInterface
                     $res[$key] = 0;
                 }
 
-                $res[$key] += round($value * $share['proportion'], 2);
+                $res[$key] += round($value * $share['ratio'], 2);
             }
         }
 
@@ -258,7 +258,7 @@ class YahooShareDataImport implements ShareDataImportInterface
 
             $inputData[] = [
                 'data'       => $data,
-                'proportion' => $portfolioShare->getProportion(),
+                'ratio' => $portfolioShare->getRatio(),
             ];
         }
 
