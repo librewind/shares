@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use AppBundle\Entity\Portfolio;
 use AppBundle\Entity\Share;
 use AppBundle\Entity\PortfolioShare;
+use AppBundle\Form\PortfolioType;
 
 /**
  * Контроллер Portfolio.
@@ -54,7 +55,7 @@ class PortfolioController extends Controller
     {
         $portfolio = new Portfolio();
 
-        $form = $this->createForm('AppBundle\Form\PortfolioType', $portfolio);
+        $form = $this->createForm(PortfolioType::class, $portfolio);
 
         $form->handleRequest($request);
 
@@ -63,7 +64,7 @@ class PortfolioController extends Controller
 
             $portfolio->setUser($this->getUser());
 
-            $em->getRepository('AppBundle:Portfolio')->save($portfolio);
+            $em->getRepository(Portfolio::class)->save($portfolio);
 
             return $this->redirectToRoute('portfolio_index');
         }
@@ -90,9 +91,9 @@ class PortfolioController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $allShares = $em->getRepository('AppBundle:Share')->findAllWithExclude($portfolioShares);
+        $allShares = $em->getRepository(Share::class)->findAllWithExclude($portfolioShares);
 
-        $totalProcents = $em->getRepository('AppBundle:Portfolio')->getTotalProcents($portfolio);
+        $totalProcents = $em->getRepository(Portfolio::class)->getTotalProcents($portfolio);
 
         return $this->render('portfolio/show.html.twig', [
             'portfolio'       => $portfolio,
@@ -115,7 +116,7 @@ class PortfolioController extends Controller
      */
     public function editAction(Request $request, Portfolio $portfolio)
     {
-        $editForm = $this->createForm('AppBundle\Form\PortfolioType', $portfolio);
+        $editForm = $this->createForm(PortfolioType::class, $portfolio);
 
         $editForm->handleRequest($request);
 
@@ -145,7 +146,7 @@ class PortfolioController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $em->getRepository('AppBundle:Portfolio')->delete($portfolio);
+        $em->getRepository(Portfolio::class)->delete($portfolio);
 
         return $this->redirectToRoute('portfolio_index');
     }
@@ -165,7 +166,7 @@ class PortfolioController extends Controller
     {
         if ('POST' == $request->getMethod()) {
             $share = $this->getDoctrine()
-                ->getRepository('AppBundle:Share')
+                ->getRepository(Share::class)
                 ->find($request->get('share_id'));
 
             if (!$share) {
@@ -195,9 +196,9 @@ class PortfolioController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $allShares = $em->getRepository('AppBundle:Share')->findAllWithExclude($portfolioShares);
+        $allShares = $em->getRepository(Share::class)->findAllWithExclude($portfolioShares);
 
-        $totalProcents = $em->getRepository('AppBundle:Portfolio')->getTotalProcents($portfolio);
+        $totalProcents = $em->getRepository(Portfolio::class)->getTotalProcents($portfolio);
 
         $maxProportion = 1 - $totalProcents;
 
@@ -226,7 +227,7 @@ class PortfolioController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $portfolioShare = $em->getRepository('AppBundle:PortfolioShare')
+        $portfolioShare = $em->getRepository(PortfolioShare::class)
             ->findOneBy(['portfolio' => $portfolio, 'share' => $share]);
 
         if ('POST' == $request->getMethod()) {
@@ -240,9 +241,9 @@ class PortfolioController extends Controller
 
         $portfolioShares = $portfolio->getPortfolioShares();
 
-        $allShares = $em->getRepository('AppBundle:Share')->findAllWithExclude($portfolioShares);
+        $allShares = $em->getRepository(Share::class)->findAllWithExclude($portfolioShares);
 
-        $totalProcents = $em->getRepository('AppBundle:Portfolio')->getTotalProcents($portfolio);
+        $totalProcents = $em->getRepository(Portfolio::class)->getTotalProcents($portfolio);
 
         $maxProportion = 1 - $totalProcents + $portfolioShare->getProportion();
 
@@ -270,7 +271,7 @@ class PortfolioController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $portfolioShare = $em->getRepository('AppBundle:PortfolioShare')
+        $portfolioShare = $em->getRepository(PortfolioShare::class)
             ->findOneBy(['portfolio' => $portfolio, 'share' => $share]);
 
         $em = $this->getDoctrine()->getManager();
