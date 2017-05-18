@@ -18,7 +18,11 @@ class DoctrinePortfolioRepository extends EntityRepository implements PortfolioR
     {
         $entity = new $this->_entityName();
 
-        return $this->prepare($entity, $data);
+        $entity->setName($data['name']);
+
+        $entity->setUser($data['user']);
+
+        return $entity;
     }
 
     /**
@@ -33,19 +37,6 @@ class DoctrinePortfolioRepository extends EntityRepository implements PortfolioR
     {
         $entity = $this->find($id);
 
-        return $this->prepare($entity, $data);
-    }
-
-    /**
-     * Заполняет поля модели.
-     *
-     * @param Portfolio $entity
-     * @param array     $data
-     *
-     * @return Portfolio
-     */
-    protected function prepare(Portfolio $entity, array $data) : Portfolio
-    {
         $entity->setName($data['name']);
 
         $entity->setUser($data['user']);
