@@ -7,7 +7,7 @@ use \DateTime;
 
 /**
  * @ORM\Table(name="share")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\DoctrineShareRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ShareRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class Share

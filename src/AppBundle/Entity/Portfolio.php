@@ -8,7 +8,7 @@ use \DateTime;
 
 /**
  * @ORM\Table(name="portfolio")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\DoctrinePortfolioRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PortfolioRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class Portfolio

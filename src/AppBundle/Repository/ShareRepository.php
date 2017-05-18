@@ -5,7 +5,7 @@ namespace AppBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\PersistentCollection;
 
-class DoctrineShareRepository extends EntityRepository implements ShareRepositoryInterface
+class ShareRepository extends EntityRepository
 {
     /**
      * Отдает все акции с исключением.

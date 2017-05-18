@@ -5,7 +5,7 @@ namespace AppBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Portfolio;
 
-class DoctrinePortfolioRepository extends EntityRepository implements PortfolioRepositoryInterface
+class PortfolioRepository extends EntityRepository
 {
     /**
      * Создает портфолио.
