@@ -20,7 +20,10 @@ class PortfolioType extends AbstractType
         $builder->add('name', TextType::class, [
             'label'              => 'form.name',
             'required'           => true,
-            'translation_domain' => 'labels'
+            'translation_domain' => 'labels',
+            'attr'               => [
+                'autofocus' => true,
+            ],
         ]);
     }
 
