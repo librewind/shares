@@ -14,6 +14,7 @@ use AppBundle\Entity\Portfolio;
 use AppBundle\Entity\Share;
 use AppBundle\Entity\PortfolioShare;
 use AppBundle\Form\PortfolioType;
+use Symfony\Component\Form\Form;
 
 /**
  * Контроллер Portfolio.
@@ -38,8 +39,14 @@ class PortfolioController extends Controller
 
         $portfolios = $user->getPortfolios();
 
+        $deleteForms = [];
+        foreach ($portfolios as $portfolio) {
+            $deleteForms[] = $this->createDeleteForm($portfolio)->createView();
+        }
+
         return $this->render('portfolio/index.html.twig', [
-            'portfolios' => $portfolios,
+            'portfolios'  => $portfolios,
+            'delete_forms' => $deleteForms,
         ]);
     }
 
@@ -144,13 +151,37 @@ class PortfolioController extends Controller
      *
      * @return RedirectResponse
      */
-    public function deleteAction(Portfolio $portfolio) : RedirectResponse
+    public function deleteAction(Request $request, Portfolio $portfolio) : RedirectResponse
     {
-        $em = $this->getDoctrine()->getManager();
+        $form = $this->createDeleteForm($portfolio);
+        $form->handleRequest($request);
 
-        $em->getRepository(Portfolio::class)->delete($portfolio);
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $user = $this->getUser();
+
+            if ($portfolio->getUser() === $user) {
+                $em->getRepository(Portfolio::class)->delete($portfolio);
+            }
+        }
 
         return $this->redirectToRoute('portfolio_index');
+    }
+
+    /**
+     * Создает форму для удаления портфеля.
+     *
+     * @param Portfolio $portfolio
+     *
+     * @return Form
+     */
+    private function createDeleteForm(Portfolio $portfolio)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('portfolio_delete', ['id' => $portfolio->getId()]))
+            ->setMethod('DELETE')
+            ->getForm();
     }
 
     /**

@@ -24,15 +24,15 @@
                                         <td><a href="{{ path('portfolio_show', { 'id': portfolio.id }) }}">{{ portfolio.name }}</a></td>
                                         <td>
                                             <div class="pull-right">
-                                                <form action="{{ path('portfolio_delete', {'id': portfolio.id}) }}" method="POST">
-                                                    <input type="hidden" name="_method" value="DELETE" />
+                                                {% set delete_form = delete_forms[loop.index0] %}
+                                                {{ form_start(delete_form) }}
                                                     <a href="{{ path('portfolio_edit', {'id': portfolio.id}) }}" class="btn btn-info">
                                                         <i class="fa fa-edit"></i> {{ 'button.edit'|trans }}
                                                     </a>
                                                     <button type="submit" class="btn btn-warning">
                                                         <i class="fa fa-trash"></i> {{ 'button.delete'|trans }}
                                                     </button>
-                                                </form>
+                                                {{ form_end(delete_form) }}
                                             </div>
                                         </td>
                                     </tr>
