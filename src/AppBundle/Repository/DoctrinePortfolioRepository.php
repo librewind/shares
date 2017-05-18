@@ -17,9 +17,7 @@ class DoctrinePortfolioRepository extends EntityRepository implements PortfolioR
     public function create(array $data) : Portfolio
     {
         $entity = new $this->_entityName();
-
         $entity->setName($data['name']);
-
         $entity->setUser($data['user']);
 
         return $entity;
@@ -36,9 +34,7 @@ class DoctrinePortfolioRepository extends EntityRepository implements PortfolioR
     public function update(array $data, int $id) : Portfolio
     {
         $entity = $this->find($id);
-
         $entity->setName($data['name']);
-
         $entity->setUser($data['user']);
 
         return $entity;
@@ -54,7 +50,6 @@ class DoctrinePortfolioRepository extends EntityRepository implements PortfolioR
     public function save(Portfolio $object) : Portfolio
     {
         $this->_em->persist($object);
-
         $this->_em->flush($object);
 
         return $object;
@@ -70,7 +65,6 @@ class DoctrinePortfolioRepository extends EntityRepository implements PortfolioR
     public function delete(Portfolio $object) : bool
     {
         $this->_em->remove($object);
-
         $this->_em->flush($object);
 
         return true;

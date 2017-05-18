@@ -180,11 +180,8 @@ class PortfolioController extends Controller
             $ratio = $request->get('ratio');
 
             $portfolioShare = new PortfolioShare();
-
             $portfolioShare->setPortfolio($portfolio);
-
             $portfolioShare->setShare($share);
-
             $portfolioShare->setRatio($ratio);
 
             $em = $this->getDoctrine()->getManager();

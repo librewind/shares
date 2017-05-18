@@ -81,11 +81,8 @@ class YahooShareDataImport implements ShareDataImportInterface
     private function sendRequest(string $url) : string
     {
         $ch = curl_init();
-
         curl_setopt($ch, CURLOPT_URL, $url);
-
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
         $result = curl_exec($ch);
 
         return $result;
@@ -251,9 +248,7 @@ class YahooShareDataImport implements ShareDataImportInterface
             }
 
             $data = $this->groupByMonths($data);
-
             $data = $this->toYield($data);
-
             $data = $this->toUnixTimestamps($data);
 
             $inputData[] = [
