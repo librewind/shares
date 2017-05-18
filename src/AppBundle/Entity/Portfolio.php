@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\PersistentCollection;
 use \DateTime;
 
 /**
@@ -66,9 +67,9 @@ class Portfolio
     /**
      * Get id.
      *
-     * @return integer
+     * @return int
      */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
@@ -78,7 +79,7 @@ class Portfolio
      *
      * @return string
      */
-    public function getName()
+    public function getName() : ?string
     {
         return $this->name;
     }
@@ -94,6 +95,16 @@ class Portfolio
     }
 
     /**
+     * Get user.
+     *
+     * @return User
+     */
+    public function getUser() : User
+    {
+        return $this->user;
+    }
+
+    /**
      * Set user.
      *
      * @param User $user
@@ -104,21 +115,11 @@ class Portfolio
     }
 
     /**
-     * Get user.
-     *
-     * @return User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
      * Get portfolio shares.
      *
-     * @return ArrayCollection
+     * @return PersistentCollection
      */
-    public function getPortfolioShares()
+    public function getPortfolioShares() : PersistentCollection
     {
         return $this->portfolioshares;
     }
@@ -128,7 +129,7 @@ class Portfolio
      *
      * @return DateTime
      */
-    public function getCreatedAt()
+    public function getCreatedAt() : ?DateTime
     {
         return $this->createdAt;
     }
@@ -148,7 +149,7 @@ class Portfolio
      *
      * @return DateTime
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt() : ?DateTime
     {
         return $this->updatedAt;
     }

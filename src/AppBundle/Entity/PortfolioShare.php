@@ -59,9 +59,9 @@ class PortfolioShare
     /**
      * Get id.
      *
-     * @return integer
+     * @return int
      */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
@@ -71,7 +71,7 @@ class PortfolioShare
      *
      * @return Portfolio
      */
-    public function getPortfolio()
+    public function getPortfolio() : Portfolio
     {
         return $this->portfolio;
     }
@@ -91,7 +91,7 @@ class PortfolioShare
      *
      * @return Share
      */
-    public function getShare()
+    public function getShare() : Share
     {
         return $this->share;
     }
@@ -111,7 +111,7 @@ class PortfolioShare
      *
      * @return float
      */
-    public function getRatio()
+    public function getRatio() : float
     {
         return $this->ratio;
     }
@@ -131,7 +131,7 @@ class PortfolioShare
      *
      * @return DateTime
      */
-    public function getCreatedAt()
+    public function getCreatedAt() : ?DateTime
     {
         return $this->createdAt;
     }
@@ -151,7 +151,7 @@ class PortfolioShare
      *
      * @return DateTime
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt() : ?DateTime
     {
         return $this->updatedAt;
     }

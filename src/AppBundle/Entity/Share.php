@@ -57,9 +57,9 @@ class Share
     /**
      * Get id.
      *
-     * @return integer
+     * @return int
      */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
@@ -109,7 +109,7 @@ class Share
      *
      * @return DateTime
      */
-    public function getCreatedAt()
+    public function getCreatedAt() : ?DateTime
     {
         return $this->createdAt;
     }
@@ -129,7 +129,7 @@ class Share
      *
      * @return DateTime
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt() : ?DateTime
     {
         return $this->updatedAt;
     }

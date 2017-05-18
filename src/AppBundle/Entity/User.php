@@ -6,6 +6,7 @@ namespace AppBundle\Entity;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\PersistentCollection;
 use \DateTime;
 
 /**
@@ -69,9 +70,9 @@ class User extends BaseUser
     /**
      * Отдаёт портфели пользователя.
      *
-     * @return ArrayCollection
+     * @return PersistentCollection
      */
-    public function getPortfolios()
+    public function getPortfolios() : PersistentCollection
     {
         return $this->portfolios;
     }
@@ -81,7 +82,7 @@ class User extends BaseUser
      *
      * @return DateTime
      */
-    public function getCreatedAt()
+    public function getCreatedAt() : ?DateTime
     {
         return $this->createdAt;
     }
@@ -101,7 +102,7 @@ class User extends BaseUser
      *
      * @return DateTime
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt() : ?DateTime
     {
         return $this->updatedAt;
     }
