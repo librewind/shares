@@ -61,7 +61,7 @@ class PortfolioShare
      *
      * @return int
      */
-    public function getId() : int
+    public function getId() : ?int
     {
         return $this->id;
     }
@@ -91,7 +91,7 @@ class PortfolioShare
      *
      * @return Share
      */
-    public function getShare() : Share
+    public function getShare() : ?Share
     {
         return $this->share;
     }
@@ -111,7 +111,7 @@ class PortfolioShare
      *
      * @return float
      */
-    public function getRatio() : float
+    public function getRatio() : ?float
     {
         return $this->ratio;
     }

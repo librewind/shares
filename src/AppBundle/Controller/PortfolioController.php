@@ -14,6 +14,7 @@ use AppBundle\Entity\Portfolio;
 use AppBundle\Entity\Share;
 use AppBundle\Entity\PortfolioShare;
 use AppBundle\Form\PortfolioType;
+use AppBundle\Form\PortfolioShareType;
 use Symfony\Component\Form\Form;
 
 /**
@@ -23,8 +24,6 @@ use Symfony\Component\Form\Form;
  */
 class PortfolioController extends Controller
 {
-    const POST_METHOD = 'POST';
-
     /**
      * Выводит список всех портфелей.
      *
@@ -197,24 +196,18 @@ class PortfolioController extends Controller
      */
     public function addShareAction(Request $request, Portfolio $portfolio)
     {
-        if (self::POST_METHOD === $request->getMethod()) {
-            $share = $this->getDoctrine()
-                ->getRepository(Share::class)
-                ->find($request->get('share_id'));
+        $portfolioShare = new PortfolioShare();
 
-            if (!$share) {
-                throw $this->createNotFoundException(
-                    'No share found for id '.$request->get('share_id')
-                );
-            }
+        $portfolioShare->setPortfolio($portfolio);
 
-            $ratio = $request->get('ratio');
+        $form = $this->createForm(PortfolioShareType::class, $portfolioShare, [
+            'entity_manager' => $this->get('doctrine.orm.entity_manager'),
+            'portfolio'      => $portfolio
+        ]);
 
-            $portfolioShare = new PortfolioShare();
-            $portfolioShare->setPortfolio($portfolio);
-            $portfolioShare->setShare($share);
-            $portfolioShare->setRatio($ratio);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($portfolioShare);
             $em->flush();
@@ -222,20 +215,8 @@ class PortfolioController extends Controller
             return $this->redirectToRoute('portfolio_show', ['id' => $portfolio->getId()]);
         }
 
-        $portfolioShares = $portfolio->getPortfolioShares();
-
-        $em = $this->getDoctrine()->getManager();
-
-        $allShares = $em->getRepository(Share::class)->findAllWithExclude($portfolioShares);
-
-        $totalProcents = $em->getRepository(Portfolio::class)->getTotalProcents($portfolio);
-
-        $maxRatio = 1 - $totalProcents;
-
         return $this->render('portfolio/add_share.html.twig', [
-            'allShares'     => $allShares,
-            'portfolio'     => $portfolio,
-            'maxRatio' => $maxRatio
+            'form' => $form->createView(),
         ]);
     }
 
@@ -260,27 +241,23 @@ class PortfolioController extends Controller
         $portfolioShare = $em->getRepository(PortfolioShare::class)
             ->findOneBy(['portfolio' => $portfolio, 'share' => $share]);
 
-        if (self::POST_METHOD === $request->getMethod()) {
-            $portfolioShare->setRatio($request->get('ratio'));
+        $form = $this->createForm(PortfolioShareType::class, $portfolioShare, [
+            'entity_manager' => $this->get('doctrine.orm.entity_manager'),
+            'portfolio'      => $portfolio
+        ]);
 
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
             $em->persist($portfolioShare);
             $em->flush();
 
             return $this->redirectToRoute('portfolio_show', ['id' => $portfolio->getId()]);
         }
 
-        $portfolioShares = $portfolio->getPortfolioShares();
-
-        $allShares = $em->getRepository(Share::class)->findAllWithExclude($portfolioShares);
-
-        $totalProcents = $em->getRepository(Portfolio::class)->getTotalProcents($portfolio);
-
-        $maxRatio = 1 - $totalProcents + $portfolioShare->getRatio();
-
         return $this->render('portfolio/edit_share.html.twig', [
-            'allShares'      => $allShares,
-            'portfolioShare' => $portfolioShare,
-            'maxRatio'  => $maxRatio
+            'form' => $form->createView(),
         ]);
     }
 
