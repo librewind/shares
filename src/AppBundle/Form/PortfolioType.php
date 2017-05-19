@@ -23,6 +23,7 @@ class PortfolioType extends AbstractType
             'translation_domain' => 'labels',
             'attr'               => [
                 'autofocus' => true,
+                'maxlength' => 100,
             ],
         ]);
     }

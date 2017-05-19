@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\PersistentCollection;
 use \DateTime;
@@ -25,6 +26,14 @@ class Portfolio
 
     /**
      * @ORM\Column(type="string", length=100)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 100,
+     *      minMessage = "Name must be at least {{ limit }} characters long",
+     *      maxMessage = "Name cannot be longer than {{ limit }} characters"
+     * )
      *
      * @var string
      */

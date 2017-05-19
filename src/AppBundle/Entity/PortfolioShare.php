@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Entity\Portfolio;
 use AppBundle\Entity\Share;
 use \DateTime;
@@ -37,6 +38,8 @@ class PortfolioShare
 
     /**
      * @ORM\Column(type="float")
+     *
+     * @Assert\GreaterThan(0)
      *
      * @var float $ratio
      */
