@@ -8,11 +8,18 @@ class DefaultControllerTest extends WebTestCase
 {
     public function testIndex()
     {
-        $client = static::createClient();
+        $client = static::createClient([], [
+            'PHP_AUTH_USER' => 'test',
+            'PHP_AUTH_PW'   => '123456',
+        ]);
 
         $crawler = $client->request('GET', '/');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        //$this->assertContains('Welcome to Symfony', $crawler->filter('#container h1')->text());
+        $text = static::$kernel->getContainer()->get('translator')->trans('welcome');
+        $this->assertContains(
+            $text,
+            $client->getResponse()->getContent()
+        );
     }
 }
