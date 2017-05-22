@@ -18,10 +18,12 @@ class QuoteToProfitTransform
 
     /**
      * Конструктор QuoteToProfitTransform.
+     *
+     * @param YahooFinancePrepare $yahooFinancePrepare
      */
-    public function __construct()
+    public function __construct(YahooFinancePrepare $yahooFinancePrepare)
     {
-        $this->yahooFinancePrepare = new YahooFinancePrepare();
+        $this->yahooFinancePrepare = $yahooFinancePrepare;
     }
 
     /**

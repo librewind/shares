@@ -15,10 +15,12 @@ class YahooFinanceApi
 
     /**
      * Конструктор YahooFinanceApi.
+     *
+     * @param HttpClient $httpClient
      */
-    public function __construct()
+    public function __construct(HttpClient $httpClient)
     {
-        $this->httpClient = new HttpClient();
+        $this->httpClient = $httpClient;
     }
 
     /**

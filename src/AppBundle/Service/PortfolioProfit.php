@@ -18,10 +18,12 @@ class PortfolioProfit implements PortfolioProfitInterface
 
     /**
      * Конструктор PortfolioProfit.
+     *
+     * @param QuoteToProfitTransform $quoteToProfitTransform
      */
-    public function __construct()
+    public function __construct(QuoteToProfitTransform $quoteToProfitTransform)
     {
-        $this->quoteToProfitTransform = new QuoteToProfitTransform();
+        $this->quoteToProfitTransform = $quoteToProfitTransform;
     }
 
     /**

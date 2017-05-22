@@ -12,4 +12,20 @@ services:
 
     app.portfolio_profit:
         class: AppBundle\Service\PortfolioProfit
+        arguments: ['@app.quote_to_profit_transform']
+
+    app.quote_to_profit_transform:
+        class: AppBundle\Service\QuoteToProfitTransform
+        arguments: ['@app.yahoo_finance_prepare']
+
+    app.yahoo_finance_prepare:
+        class: AppBundle\Service\YahooFinancePrepare
+        arguments: ['@app.yahoo_finance_api']
+
+    app.yahoo_finance_api:
+        class: AppBundle\Service\YahooFinanceApi
+        arguments: ['@app.http_client']
+
+    app.http_client:
+        class: AppBundle\Service\HttpClient
         arguments: []

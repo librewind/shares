@@ -29,10 +29,12 @@ class YahooFinancePrepare
 
     /**
      * Конструтор YahooFinancePrepare.
+     *
+     * @param YahooFinanceApi $yahooFinanceApi
      */
-    public function __construct()
+    public function __construct(YahooFinanceApi $yahooFinanceApi)
     {
-        $this->yahooFinanceApi = new YahooFinanceApi;
+        $this->yahooFinanceApi = $yahooFinanceApi;
     }
 
     /**
