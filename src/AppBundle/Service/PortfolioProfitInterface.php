@@ -4,7 +4,7 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\Portfolio;
 
-interface ShareDataImportInterface
+interface PortfolioProfitInterface
 {
     /**
      * Период в месяцах по умолчанию по которому рассчитывается доходность.
@@ -19,5 +19,5 @@ interface ShareDataImportInterface
      *
      * @return array
      */
-    public function fetchMonthlyYield(Portfolio $portfolio, int $periodInMonths = self::DEFAULT_PERIOD) : array;
+    public function getMonthlyProfit(Portfolio $portfolio, int $periodInMonths = self::DEFAULT_PERIOD) : array;
 }

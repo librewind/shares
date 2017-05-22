@@ -10,6 +10,6 @@ services:
         tags:
             - { name: kernel.event_subscriber, event: fos_user.registration.success }
 
-    app.share_data_import:
-        class:     AppBundle\Service\YahooShareDataImport
+    app.portfolio_profit:
+        class: AppBundle\Service\PortfolioProfit
         arguments: []

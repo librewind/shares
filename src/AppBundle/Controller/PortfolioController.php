@@ -300,10 +300,10 @@ class PortfolioController extends Controller
      */
     public function calculationAction(Portfolio $portfolio) : JsonResponse
     {
-        $shareDataImport = $this->get('app.share_data_import');
+        $portfolioProfit = $this->get('app.portfolio_profit');
 
         try {
-            $result = $shareDataImport->fetchMonthlyYield($portfolio);
+            $result = $portfolioProfit->getMonthlyProfit($portfolio);
         } catch (\RuntimeException $e) {
             $result = [
                 'error'     => true,
